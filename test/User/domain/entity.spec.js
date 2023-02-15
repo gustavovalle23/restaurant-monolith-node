@@ -7,6 +7,7 @@ describe('User Entity Unit Tests', () => {
         const user = new User({
             firstName: 'Gus',
             lastName: 'Valle',
+            address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
             birthDate
         })
 
@@ -24,6 +25,7 @@ describe('User Entity Unit Tests', () => {
             new User({
                 firstName: 'Gus',
                 lastName: 'Valle',
+                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
                 birthDate
             })
         } catch (error) {
@@ -41,6 +43,7 @@ describe('User Entity Unit Tests', () => {
         try {
             new User({
                 lastName: 'Valle',
+                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
                 birthDate
             })
         } catch (error) {
@@ -54,6 +57,7 @@ describe('User Entity Unit Tests', () => {
         try {
             new User({
                 firstName: 'Gus',
+                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
                 birthDate
             })
         } catch (error) {
@@ -66,7 +70,8 @@ describe('User Entity Unit Tests', () => {
 
         try {
             new User({
-                birthDate
+                birthDate,
+                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
             })
         } catch (error) {
             errorMessage = error.message
@@ -79,13 +84,13 @@ describe('User Entity Unit Tests', () => {
             new User({
                 firstName: null,
                 lastName: null,
+                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
                 birthDate
             })
         } catch (error) {
             errorMessage = error.message
         }
         expect(errorMessage).toBe('ValidationError: "firstName" must be a string. "lastName" must be a string')
-
     })
 
 })
