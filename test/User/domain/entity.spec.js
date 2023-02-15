@@ -2,7 +2,7 @@ const { User } = require('../../../src/User/domain')
 
 describe('User Entity Unit Tests', () => {
     it('Should instantiate User entity with valid args', () => {
-        const birthDate = new Date(1999, 6, 26)
+        const birthDate = new Date(1999, 1, 1)
 
         const user = new User({
             firstName: 'Gus',
@@ -16,8 +16,10 @@ describe('User Entity Unit Tests', () => {
         expect(user.birthDate).toEqual(birthDate)
     })
 
-    it('Should instantiate User entity with invalid birthDate', () => {
+    it('Should throw error when instantiate User entity with invalid birthDate', () => {
         const birthDate = "Fake Data"
+        let errorMessage
+
         try {
             new User({
                 firstName: 'Gus',
@@ -25,8 +27,65 @@ describe('User Entity Unit Tests', () => {
                 birthDate
             })
         } catch (error) {
-            expect(error.message).toBe("ValidationError: \"birthDate\" must be a valid date")
+            errorMessage = error.message
         }
+
+        expect(errorMessage).toBe('ValidationError: "birthDate" must be a valid date')
+
+    })
+
+    it('Should throw error when instantiate User entity with invalid names', () => {
+        const birthDate = new Date(1999, 1, 1)
+        let errorMessage
+
+        try {
+            new User({
+                lastName: 'Valle',
+                birthDate
+            })
+        } catch (error) {
+            errorMessage = error.message
+        }
+
+        expect(errorMessage).toBe('ValidationError: "firstName" is required')
+
+        errorMessage = undefined
+
+        try {
+            new User({
+                firstName: 'Gus',
+                birthDate
+            })
+        } catch (error) {
+            errorMessage = error.message
+        }
+
+        expect(errorMessage).toBe('ValidationError: "lastName" is required')
+
+        errorMessage = undefined
+
+        try {
+            new User({
+                birthDate
+            })
+        } catch (error) {
+            errorMessage = error.message
+        }
+        expect(errorMessage).toBe('ValidationError: "firstName" is required. "lastName" is required')
+
+        errorMessage = undefined
+
+        try {
+            new User({
+                firstName: null,
+                lastName: null,
+                birthDate
+            })
+        } catch (error) {
+            errorMessage = error.message
+        }
+        expect(errorMessage).toBe('ValidationError: "firstName" must be a string. "lastName" must be a string')
+
     })
 
 })
