@@ -1,10 +1,12 @@
 const Joi = require('joi')
 
 const UserValidator = Joi.object({
-    id: Joi.string().hex().length(24),
-    firstName: Joi.string().alphanum().max(30).required(),
-    lastName: Joi.string().alphanum().max(30).required(),
+    id: Joi.string().hex().length(24).optional(),
+    name: Joi.string().max(50).required(),
+    password: Joi.string().max(80).required(),
+    email: Joi.string().email().max(100).required(),
     birthDate: Joi.date().required(),
+    isActive: Joi.boolean().optional(),
     address: Joi.allow(),
 })
 

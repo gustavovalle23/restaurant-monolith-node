@@ -1,13 +1,15 @@
 const { User } = require('../../../src/User/domain')
 
 describe('User Entity Unit Tests', () => {
+    const validAddress = { country: 'BR', state: 'SP', street: 'Street 12', number: 23 }
+
     it('Should instantiate User entity with valid args', () => {
         const birthDate = new Date(1999, 1, 1)
 
         const user = new User({
             firstName: 'Gus',
             lastName: 'Valle',
-            address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+            address: validAddress,
             birthDate
         })
 
@@ -15,6 +17,7 @@ describe('User Entity Unit Tests', () => {
         expect(user.firstName).toBe('Gus')
         expect(user.lastName).toBe('Valle')
         expect(user.birthDate).toEqual(birthDate)
+        expect(user.isActive).toBeTruthy()
     })
 
     it('Should throw error when instantiate User entity with invalid birthDate', () => {
@@ -25,7 +28,7 @@ describe('User Entity Unit Tests', () => {
             new User({
                 firstName: 'Gus',
                 lastName: 'Valle',
-                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+                address: validAddress,
                 birthDate
             })
         } catch (error) {
@@ -33,6 +36,19 @@ describe('User Entity Unit Tests', () => {
         }
 
         expect(errorMessage).toBe('ValidationError: "birthDate" must be a valid date')
+    })
+
+    it('Should create an inactive user when set it in constructor', () => {
+        const birthDate = new Date(1999, 1, 1)
+        const user = new User({
+            firstName: 'Gus',
+            lastName: 'Valle',
+            address: validAddress,
+            isActive: false,
+            birthDate
+        })
+
+        expect(user.isActive).toBeFalsy()
 
     })
 
@@ -43,7 +59,7 @@ describe('User Entity Unit Tests', () => {
         try {
             new User({
                 lastName: 'Valle',
-                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+                address: validAddress,
                 birthDate
             })
         } catch (error) {
@@ -57,7 +73,7 @@ describe('User Entity Unit Tests', () => {
         try {
             new User({
                 firstName: 'Gus',
-                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+                address: validAddress,
                 birthDate
             })
         } catch (error) {
@@ -71,7 +87,7 @@ describe('User Entity Unit Tests', () => {
         try {
             new User({
                 birthDate,
-                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+                address: validAddress,
             })
         } catch (error) {
             errorMessage = error.message
@@ -84,7 +100,7 @@ describe('User Entity Unit Tests', () => {
             new User({
                 firstName: null,
                 lastName: null,
-                address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+                address: validAddress,
                 birthDate
             })
         } catch (error) {

@@ -11,4 +11,11 @@
 const { User } = require('./src/User/domain')
 
 
-const user = new User('Gus', 'Valle', new Date(1999, 6, 26))
+const user = new User({
+    firstName: 'Gus',
+    lastName: 'Valle',
+    address: { country: 'BR', state: 'SP', street: 'Street 12', number: 23 },
+    birthDate: Date.now()
+})
+
+console.log(user)

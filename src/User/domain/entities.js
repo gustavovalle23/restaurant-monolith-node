@@ -4,11 +4,13 @@ const { UserValidator } = require('./validators');
 const { Address } = require('./valueObjects');
 
 class User {
-    constructor({ firstName, lastName, birthDate, address: { country, state, street, number }, id = null }) {
-        this.id = id ?? new ObjectId().toString();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
+    constructor({ name, email, password, birthDate, address: { country, state, street, number }, isActive = true, id = null }) {
+        this.id = id ?? new ObjectId().toString()
+        this.name = name
+        this.email = email
+        this.password = password
+        this.birthDate = birthDate
+        this.isActive = isActive
         this.address = new Address({ country, state, street, number })
 
         this.#validate()
