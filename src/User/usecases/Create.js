@@ -1,4 +1,5 @@
 const { User } = require('../domain')
+const { makeHashPassword } = require('../domain/contracts')
 
 class CreateUserUseCase {
     constructor(userRepository) {
@@ -6,14 +7,22 @@ class CreateUserUseCase {
     }
 
     async execute({ name, email, password, birthDate, address }) {
-        const user = new User({ name, email, password, birthDate, address })
-        const savedUser = await this.userRepository.save(user)
+        const hashedPassword = makeHashPassword(password)
+        const user = new User({
+            name, email, password: hashedPassword, birthDate, address
+        })
+
+        const savedUser = await this.userRepository.save({
+            user,
+        })
+
+        if (!savedUser) throw new Error('Unknow error when try create user')
 
         return {
             id: savedUser.id,
             name: savedUser.name,
             email: savedUser.email,
-            birthDate: savedUser.birthDate
+            birthDate: savedUser.birthDate,
         }
     }
 }

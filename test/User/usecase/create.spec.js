@@ -21,7 +21,6 @@ class UserRepository {
 }
 
 describe('Create User Use Case Unit Test', () => {
-
     const mockRepository = new UserRepository()
     const useCase = new CreateUserUseCase(mockRepository)
 

@@ -7,15 +7,16 @@ describe('User Entity Unit Tests', () => {
         const birthDate = new Date(1999, 1, 1)
 
         const user = new User({
-            firstName: 'Gus',
-            lastName: 'Valle',
+            name: 'Gus',
+            email: 'email@email.com',
+            password: '123',
             address: validAddress,
             birthDate
         })
 
         expect(user.id).not.toBeNull()
-        expect(user.firstName).toBe('Gus')
-        expect(user.lastName).toBe('Valle')
+        expect(user.name).toBe('Gus')
+        expect(user.password).toBe('123')
         expect(user.birthDate).toEqual(birthDate)
         expect(user.isActive).toBeTruthy()
     })
@@ -26,8 +27,9 @@ describe('User Entity Unit Tests', () => {
 
         try {
             new User({
-                firstName: 'Gus',
-                lastName: 'Valle',
+                name: 'Gus',
+                email: 'email@email.com',
+                password: '123',
                 address: validAddress,
                 birthDate
             })
@@ -41,8 +43,9 @@ describe('User Entity Unit Tests', () => {
     it('Should create an inactive user when set it in constructor', () => {
         const birthDate = new Date(1999, 1, 1)
         const user = new User({
-            firstName: 'Gus',
-            lastName: 'Valle',
+            name: 'Gus',
+            email: 'email@email.com',
+            password: '123',
             address: validAddress,
             isActive: false,
             birthDate
@@ -52,61 +55,36 @@ describe('User Entity Unit Tests', () => {
 
     })
 
-    it('Should throw error when instantiate User entity with invalid names', () => {
+    it('Should throw error when instantiate User entity with invalid name', () => {
         const birthDate = new Date(1999, 1, 1)
         let errorMessage
 
         try {
             new User({
-                lastName: 'Valle',
-                address: validAddress,
-                birthDate
-            })
-        } catch (error) {
-            errorMessage = error.message
-        }
-
-        expect(errorMessage).toBe('ValidationError: "firstName" is required')
-
-        errorMessage = undefined
-
-        try {
-            new User({
-                firstName: 'Gus',
-                address: validAddress,
-                birthDate
-            })
-        } catch (error) {
-            errorMessage = error.message
-        }
-
-        expect(errorMessage).toBe('ValidationError: "lastName" is required')
-
-        errorMessage = undefined
-
-        try {
-            new User({
                 birthDate,
+                email: 'email@email.com',
+                password: '123',
                 address: validAddress,
             })
         } catch (error) {
             errorMessage = error.message
         }
-        expect(errorMessage).toBe('ValidationError: "firstName" is required. "lastName" is required')
+        expect(errorMessage).toBe('ValidationError: "name" is required')
 
         errorMessage = undefined
 
         try {
             new User({
-                firstName: null,
-                lastName: null,
+                name: null,
+                email: 'email@email.com',
+                password: '123',
                 address: validAddress,
                 birthDate
             })
         } catch (error) {
             errorMessage = error.message
         }
-        expect(errorMessage).toBe('ValidationError: "firstName" must be a string. "lastName" must be a string')
+        expect(errorMessage).toBe('ValidationError: "name" must be a string')
     })
 
 })
