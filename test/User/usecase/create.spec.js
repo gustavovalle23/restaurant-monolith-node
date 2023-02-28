@@ -30,6 +30,10 @@ describe('Create User Use Case Unit Test', () => {
         })
 
         expect(output).toBeDefined()
+        expect(output.name).toBe(name)
+        expect(output.email).toBe(email)
+        expect(output.birthDate).toBe(birthDate)
+        expect(output.address).toStrictEqual(address)
         expect(output.password).toBeUndefined()
     })
 })

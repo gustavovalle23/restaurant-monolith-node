@@ -23,6 +23,7 @@ class CreateUserUseCase {
             name: savedUser.name,
             email: savedUser.email,
             birthDate: savedUser.birthDate,
+            address: savedUser.address,
         }
     }
 }
