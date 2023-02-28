@@ -9,7 +9,12 @@ const address = {
 }
 
 class UserRepository {
+    constructor({ failed }) {
+        this.failed = failed
+    }
     save() {
+        if (this.failed) return;
+
         return {
             id: '63ed8a67320d042ef8a0412b',
             name,
@@ -21,7 +26,7 @@ class UserRepository {
 }
 
 describe('Create User Use Case Unit Test', () => {
-    const mockRepository = new UserRepository()
+    const mockRepository = new UserRepository({ failed: false })
     const useCase = new CreateUserUseCase(mockRepository)
 
     it('Should instantiate create use case with valid input', async () => {
@@ -35,5 +40,34 @@ describe('Create User Use Case Unit Test', () => {
         expect(output.birthDate).toBe(birthDate)
         expect(output.address).toStrictEqual(address)
         expect(output.password).toBeUndefined()
+    })
+
+    it('Should instantiate create use case with invalid address input', async () => {
+        let error;
+        try {
+            await useCase.execute({
+                name, email, password, birthDate, address: { ...address, country: undefined }
+            })
+        } catch (err) {
+            error = err
+        }
+
+        expect(error.message).toBe('ValidationError: "country" is required')
+    })
+
+    it('Should instantiate create use case with invalid repository output', async () => {
+        const mockRepository = new UserRepository({ failed: true })
+        const useCase = new CreateUserUseCase(mockRepository)
+
+        let error;
+        try {
+            await useCase.execute({
+                name, email, password, birthDate, address
+            })
+        } catch (err) {
+            error = err
+        }
+
+        expect(error).toStrictEqual(new Error('Unknow error when try create user'))
     })
 })
