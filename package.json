@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "test:mutation": "cross-env TS_NODE_PROJECT=path/to/your/tsconfig.json stryker run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bson": "^5.0.0",
+    "cross-env": "^7.0.3",
     "joi": "^17.7.1",
     "koa": "^2.14.1"
   },

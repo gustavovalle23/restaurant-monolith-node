@@ -40,6 +40,26 @@ describe('User Entity Unit Tests', () => {
         expect(errorMessage).toBe('ValidationError: "birthDate" must be a valid date')
     })
 
+    it('Should throw error when instantiate User entity with invalid id', () => {
+        let errorMessage
+        const birthDate = new Date(1999, 1, 1)
+
+        try {
+            new User({
+                id: '123',
+                name: 'Gus',
+                email: 'email@email.com',
+                password: '123',
+                address: validAddress,
+                birthDate
+            })
+        } catch (error) {
+            errorMessage = error.message
+        }
+
+        expect(errorMessage).toBe('ValidationError: "id" must be a valid ObjectID')
+    })
+
     it('Should create an inactive user when set it in constructor', () => {
         const birthDate = new Date(1999, 1, 1)
         const user = new User({

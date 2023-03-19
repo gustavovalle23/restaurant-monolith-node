@@ -13,12 +13,14 @@ class User {
         this.isActive = isActive
         this.address = new Address({ country, state, street, number })
 
-        this.#validate()
+        this.#validate();
     }
 
     #validate() {
-        const { error } = UserValidator.validate(this, { abortEarly: false })
-        if (typeof error !== 'undefined') throw new Error(error)
+        if (!ObjectId.isValid(this.id)) throw new Error('ValidationError: "id" must be a valid ObjectID');
+
+        const { error } = UserValidator.validate(this, { abortEarly: false });
+        if (typeof error !== 'undefined') throw new Error(error);
     }
 
 }
