@@ -7,7 +7,8 @@ class CreateUserUseCase {
     }
 
     async execute({ name, email, password, birthDate, address }) {
-        const hashedPassword = makeHashPassword(password)
+        const hashedPassword = await makeHashPassword(password)
+
         const user = new User({
             name, email, password: hashedPassword, birthDate, address
         })
