@@ -2,7 +2,7 @@ const { User } = require('../domain')
 const { makeHashPassword } = require('../domain/contracts')
 
 class CreateUserUseCase {
-    constructor(userRepository) {
+    constructor({ userRepository }) {
         this.userRepository = userRepository
     }
 

@@ -26,8 +26,8 @@ class UserRepository {
 }
 
 describe('Create User Use Case Unit Test', () => {
-    const mockRepository = new UserRepository({ failed: false })
-    const useCase = new CreateUserUseCase(mockRepository)
+    const userRepository = new UserRepository({ failed: false })
+    const useCase = new CreateUserUseCase({ userRepository })
 
     it('Should instantiate create use case with valid input', async () => {
         const output = await useCase.execute({
@@ -56,8 +56,8 @@ describe('Create User Use Case Unit Test', () => {
     })
 
     it('Should instantiate create use case with invalid repository output', async () => {
-        const mockRepository = new UserRepository({ failed: true })
-        const useCase = new CreateUserUseCase(mockRepository)
+        const userRepository = new UserRepository({ failed: true })
+        const useCase = new CreateUserUseCase({ userRepository })
 
         let error;
         try {
