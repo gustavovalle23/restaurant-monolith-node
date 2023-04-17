@@ -1,4 +1,5 @@
 const { User } = require('../../../src/User/domain')
+const { createUser } = require('../../../src/User/domain/entities')
 
 describe('User Entity Unit Tests', () => {
     const validAddress = { country: 'BR', state: 'SP', street: 'Street 12', number: 23 }
@@ -6,7 +7,7 @@ describe('User Entity Unit Tests', () => {
     it('Should instantiate User entity with valid args', () => {
         const birthDate = new Date(1999, 1, 1)
 
-        const user = new User({
+        const user = createUser({
             name: 'Gus',
             email: 'email@email.com',
             password: '123',
@@ -26,7 +27,7 @@ describe('User Entity Unit Tests', () => {
         let errorMessage
 
         try {
-            new User({
+            createUser({
                 name: 'Gus',
                 email: 'email@email.com',
                 password: '123',
@@ -45,7 +46,7 @@ describe('User Entity Unit Tests', () => {
         const birthDate = new Date(1999, 1, 1)
 
         try {
-            new User({
+            createUser({
                 id: '123',
                 name: 'Gus',
                 email: 'email@email.com',
@@ -62,7 +63,7 @@ describe('User Entity Unit Tests', () => {
 
     it('Should create an inactive user when set it in constructor', () => {
         const birthDate = new Date(1999, 1, 1)
-        const user = new User({
+        const user = createUser({
             name: 'Gus',
             email: 'email@email.com',
             password: '123',
@@ -80,7 +81,7 @@ describe('User Entity Unit Tests', () => {
         let errorMessage
 
         try {
-            new User({
+            createUser({
                 birthDate,
                 email: 'email@email.com',
                 password: '123',
@@ -94,7 +95,7 @@ describe('User Entity Unit Tests', () => {
         errorMessage = undefined
 
         try {
-            new User({
+            createUser({
                 name: null,
                 email: 'email@email.com',
                 password: '123',

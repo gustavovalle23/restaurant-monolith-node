@@ -5,18 +5,30 @@ describe('UpdateUserUseCase', () => {
   let userRepository;
   let updateUserUseCase;
 
+  const defaultAddress = {
+    country: 'BR', state: 'SP', street: 'Street 12', number: 23
+  }
+
   beforeEach(() => {
     userRepository = new UserRepository();
     updateUserUseCase = new UpdateUserUseCase({ userRepository });
   });
 
   it('should update a user with the specified information', async () => {
-    const userId = 123;
+    const userId = '111111111111111111111111';
     const name = 'John Doe';
     const email = 'john.doe@example.com';
     const birthDate = '1990-01-01';
 
-    const existingUser = { id: userId, name: 'Old Name', email: 'old.email@example.com', password: 'oldpassword', birthDate: '1980-01-01' };
+    const existingUser = {
+      id: userId,
+      name: 'Old Name',
+      email: 'old.email@example.com',
+      password: 'oldpassword',
+      birthDate: '1980-01-01',
+      address: defaultAddress
+    };
+
     userRepository.getById = jest.fn().mockResolvedValue(existingUser);
     userRepository.update = jest.fn().mockImplementation((user) => Promise.resolve(user));
 
@@ -25,6 +37,8 @@ describe('UpdateUserUseCase', () => {
     expect(userRepository.getById).toHaveBeenCalledWith(userId);
     expect(userRepository.update).toHaveBeenCalledWith({
       id: userId,
+      isActive: true,
+      address: existingUser.address,
       name,
       email,
       birthDate,
@@ -40,28 +54,44 @@ describe('UpdateUserUseCase', () => {
   });
 
   it('should throw an error if the specified user does not exist', async () => {
-    const userId = 456;
+    const userId = '111111111111111111111456';
     userRepository.getById = jest.fn().mockResolvedValue(null);
 
     await expect(updateUserUseCase.execute({ userId })).rejects.toThrow('User not found');
   });
 
   it('should throw an error if no parameters are provided', async () => {
-    const userId = 123;
-    userRepository.getById = jest.fn().mockResolvedValue({ id: userId, name: 'Old Name', email: 'old.email@example.com', password: 'oldpassword', birthDate: '1980-01-01' });
+    const userId = '111111111111111111111111';
+    userRepository.getById = jest.fn().mockResolvedValue({
+      id: userId,
+      name: 'Old Name',
+      email: 'old.email@example.com',
+      password: 'oldpassword',
+      birthDate: '1980-01-01',
+      address: defaultAddress
+    });
+
     await expect(updateUserUseCase.execute({})).rejects.toThrow('No parameters provided');
   });
 
   it('should not update a user if no parameters are provided', async () => {
-    const userId = 123;
-    const user = { id: userId, name: 'Old Name', email: 'old.email@example.com', password: 'oldpassword', birthDate: '1980-01-01' }
+    const userId = '111111111111111111111111';
+    const user = {
+      id: userId,
+      name: 'Old Name',
+      email: 'old.email@example.com',
+      password: 'oldpassword',
+      birthDate: '1980-01-01',
+      address: defaultAddress
+    }
+
     userRepository.getById = jest.fn().mockResolvedValue(user);
     userRepository.update = jest.fn();
 
     await updateUserUseCase.execute({ userId });
 
     expect(userRepository.getById).toHaveBeenCalledWith(userId);
-    expect(userRepository.update).toHaveBeenCalledWith({...user});
+    expect(userRepository.update).toHaveBeenCalledWith({ ...user, isActive: true });
   });
 
 });
