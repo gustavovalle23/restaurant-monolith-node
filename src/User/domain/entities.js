@@ -1,7 +1,7 @@
 const { ObjectId } = require('bson')
 
 const { UserValidator } = require('./validators');
-const { Address } = require('./valueObjects');
+const { Address, createAddress } = require('./valueObjects');
 
 class User {
   constructor({ name, email, password, birthDate, address: { country, state, street, number }, isActive = true, id = null }) {

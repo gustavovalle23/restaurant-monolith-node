@@ -1,3 +1,5 @@
+const { createUser } = require("../domain/entities");
+
 class UpdateUserUseCase {
   constructor({ userRepository }) {
     this.userRepository = userRepository;
@@ -13,7 +15,7 @@ class UpdateUserUseCase {
       throw new Error('User not found');
     }
 
-    const updatedUser = {
+    const updatedUserParams = {
       id: userId,
       name: name || existingUser.name,
       email: email || existingUser.email,
@@ -21,7 +23,12 @@ class UpdateUserUseCase {
       birthDate: birthDate || existingUser.birthDate,
     };
 
-    return await this.userRepository.update(updatedUser);
+
+    const updatedUser = createUser(
+      { ...updatedUserParams, address: existingUser.address }
+    )
+
+    return this.userRepository.update(updatedUser);
   }
 }
 
