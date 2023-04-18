@@ -1,4 +1,6 @@
-const { CreateUserUseCase } = require("../../../src/User/usecases")
+// const { CreateUserUseCase } = require("../../../src/User/usecases")
+const { createCreateUserUseCase } = require("../../../src/User/usecases/Create")
+const { makeHashPassword } = require('../../../src/User/domain/contracts')
 
 const name = 'Gus'
 const email = 'email@email.com'
@@ -27,7 +29,10 @@ class UserRepository {
 
 describe('Create User Use Case Unit Test', () => {
     const userRepository = new UserRepository({ failed: false })
-    const useCase = new CreateUserUseCase({ userRepository })
+    const useCase = createCreateUserUseCase({
+        userRepository,
+        makeHashPasswordService: makeHashPassword
+    })
 
     it('Should instantiate create use case with valid input', async () => {
         const output = await useCase.execute({
@@ -57,7 +62,10 @@ describe('Create User Use Case Unit Test', () => {
 
     it('Should instantiate create use case with invalid repository output', async () => {
         const userRepository = new UserRepository({ failed: true })
-        const useCase = new CreateUserUseCase({ userRepository })
+        const useCase = createCreateUserUseCase({
+            userRepository,
+            makeHashPasswordService: makeHashPassword
+        })
 
         let error;
         try {

@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const UserValidator = Joi.object({
+const userValidator = Joi.object({
     id: Joi.string().hex().length(24).optional(),
     name: Joi.string().max(50).required(),
     password: Joi.string().max(80).required(),
@@ -10,7 +10,7 @@ const UserValidator = Joi.object({
     address: Joi.allow(),
 })
 
-const AddressValidator = Joi.object({
+const addressValidator = Joi.object({
     country: Joi.string().required(),
     state: Joi.string().required(),
     street: Joi.string().required(),
@@ -19,6 +19,6 @@ const AddressValidator = Joi.object({
 
 
 module.exports = {
-    UserValidator,
-    AddressValidator,
+    userValidator,
+    addressValidator,
 }

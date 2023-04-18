@@ -1,7 +1,7 @@
-const { User } = require('./entities')
-const { Address } = require('./valueObjects')
+const { createUser } = require('./entities')
+const { createAddress } = require('./valueObjects')
 
 module.exports = {
-    User,
-    Address,
+    createUser,
+    createAddress,
 }

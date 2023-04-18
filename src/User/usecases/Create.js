@@ -1,21 +1,14 @@
-const { User } = require('../domain')
-const { makeHashPassword } = require('../domain/contracts')
 const { createUser } = require('../domain/entities')
 
-class CreateUserUseCase {
-  constructor({ userRepository }) {
-    this.userRepository = userRepository
-  }
-
-  async execute({ name, email, password, birthDate, address }) {
-    const hashedPassword = await makeHashPassword(password)
+function createCreateUserUseCase({ userRepository, makeHashPasswordService }) {
+  async function execute({ name, email, password, birthDate, address }) {
+    const hashedPassword = await makeHashPasswordService(password)
 
     const user = createUser({
       name, email, password: hashedPassword, birthDate, address
     })
 
-
-    const savedUser = await this.userRepository.save({
+    const savedUser = await userRepository.save({
       user,
     })
 
@@ -29,8 +22,12 @@ class CreateUserUseCase {
       address: savedUser.address,
     }
   }
+
+  return {
+    execute,
+  }
 }
 
 module.exports = {
-  CreateUserUseCase,
+  createCreateUserUseCase
 }

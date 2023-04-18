@@ -1,16 +1,12 @@
 const { createUser } = require("../domain/entities");
 
-class UpdateUserUseCase {
-  constructor({ userRepository }) {
-    this.userRepository = userRepository;
-  }
-
-  async execute({ userId, name, email, birthDate }) {
+function createUpdateUserUseCase({ userRepository }) {
+  async function execute({ userId, name, email, birthDate }) {
     if (!userId && !name && !email && !birthDate) {
       throw new Error('No parameters provided for user update');
     }
 
-    const existingUser = await this.userRepository.getById(userId);
+    const existingUser = await userRepository.getById(userId);
     if (!existingUser) {
       throw new Error('User not found');
     }
@@ -28,10 +24,15 @@ class UpdateUserUseCase {
       { ...updatedUserParams, address: existingUser.address }
     )
 
-    return this.userRepository.update(updatedUser);
+    return userRepository.update(updatedUser);
+  }
+
+  return {
+    execute,
   }
 }
 
+
 module.exports = {
-  UpdateUserUseCase
+  createUpdateUserUseCase
 };

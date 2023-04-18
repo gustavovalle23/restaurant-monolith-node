@@ -1,23 +1,23 @@
-const { AddressValidator } = require("./validators")
+const { addressValidator } = require("./validators")
 
 const createAddress = ({ country, state, street, number }) => {
-    const address = {
-        country,
-        state,
-        street,
-        number
-    };
+  const address = {
+    country,
+    state,
+    street,
+    number
+  };
 
-    const validate = () => {
-        const { error } = AddressValidator.validate(address, { abortEarly: false });
-        if (typeof error !== 'undefined') throw new Error(error);
-    };
+  const validate = () => {
+    const { error } = addressValidator.validate(address, { abortEarly: false });
+    if (typeof error !== 'undefined') throw new Error(error);
+  };
 
-    validate();
+  validate();
 
-    return address;
+  return address;
 };
 
 module.exports = {
-    createAddress,
+  createAddress,
 }
