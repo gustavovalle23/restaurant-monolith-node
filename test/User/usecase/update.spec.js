@@ -1,5 +1,4 @@
-const { UpdateUserUseCase } = require('../../../src/User/usecases');
-const { UserRepository } = require('../../../src/User/domain/repository');
+const { createUserRepository } = require('../../../src/User/domain/repository');
 const { createUpdateUserUseCase } = require('../../../src/User/usecases/Update');
 
 describe('UpdateUserUseCase', () => {
@@ -11,7 +10,7 @@ describe('UpdateUserUseCase', () => {
   }
 
   beforeEach(() => {
-    userRepository = new UserRepository();
+    userRepository = createUserRepository();
     updateUserUseCase = createUpdateUserUseCase({ userRepository })
   });
 

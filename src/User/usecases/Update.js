@@ -1,7 +1,7 @@
 const { createUser } = require("../domain/entities");
 
-function createUpdateUserUseCase({ userRepository }) {
-  async function execute({ userId, name, email, birthDate }) {
+const createUpdateUserUseCase = ({ userRepository }) => {
+  const execute = async ({ userId, name, email, birthDate }) => {
     if (!userId && !name && !email && !birthDate) {
       throw new Error('No parameters provided for user update');
     }

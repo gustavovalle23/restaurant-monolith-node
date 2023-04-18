@@ -1,7 +1,7 @@
 const { createUser } = require('../domain/entities')
 
-function createCreateUserUseCase({ userRepository, makeHashPasswordService }) {
-  async function execute({ name, email, password, birthDate, address }) {
+const createCreateUserUseCase = ({ userRepository, makeHashPasswordService }) => {
+  const execute = async ({ name, email, password, birthDate, address }) => {
     const hashedPassword = await makeHashPasswordService(password)
 
     const user = createUser({

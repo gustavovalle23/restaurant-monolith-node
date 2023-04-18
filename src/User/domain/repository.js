@@ -1,13 +1,14 @@
-class UserRepository {
-  async getById(userId) {
-    return null;
-  }
+const createUserRepository = () => {
+  const getById = (userId) => null;
 
-  async update(user) {
-    return null;
+  const update = (user) => null;
+
+  return {
+    getById,
+    update,
   }
 }
 
 module.exports = {
-  UserRepository,
+  createUserRepository,
 }
