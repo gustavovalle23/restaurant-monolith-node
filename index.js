@@ -1,5 +1,19 @@
 const Koa = require('koa');
+const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+
+
 const app = new Koa();
+const router = new Router();
+
+app.use(bodyParser());
+
+router.post('/user/login', async (ctx) => {
+  ctx.body = {
+    username: ctx.request.body.username,
+    password: ctx.request.body.password
+  };
+});
 
 app.use(async (ctx, next) => {
   await next();
@@ -14,8 +28,7 @@ app.use(async (ctx, next) => {
   ctx.set('X-Response-Time', `${ms}ms`);
 });
 
-app.use(async ctx => {
-  ctx.body = { 'message': 'Hello World' };
-});
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 app.listen(3000);

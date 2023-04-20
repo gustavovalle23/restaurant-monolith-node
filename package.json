@@ -16,7 +16,9 @@
     "bson": "^5.0.0",
     "cross-env": "^7.0.3",
     "joi": "^17.7.1",
-    "koa": "^2.14.1"
+    "koa": "^2.14.1",
+    "koa-bodyparser": "^4.4.0",
+    "koa-router": "^12.0.0"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^6.4.1",
