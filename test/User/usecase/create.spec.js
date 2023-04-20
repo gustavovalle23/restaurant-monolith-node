@@ -1,5 +1,5 @@
-const { createCreateUserUseCase } = require("../../../src/User/usecases/Create")
 const { makeHashPassword } = require('../../../src/User/domain/contracts')
+const { createCreateUserUseCase } = require('../../../src/User/usecases')
 
 const name = 'Gus'
 const email = 'email@email.com'
@@ -35,8 +35,24 @@ describe('Create User Use Case Unit Test', () => {
   })
 
   it('Should instantiate create use case with valid input', async () => {
+    const saveSpy = jest.spyOn(userRepository, 'save')
+
     const output = await useCase.execute({
       name, email, password, birthDate, address
+    })
+
+
+    expect(saveSpy).toBeCalledTimes(1)
+    expect(saveSpy).toBeCalledWith({
+      user: {
+        id: expect.any(String),
+        name,
+        email,
+        address,
+        birthDate,
+        isActive: true,
+        password: expect.any(String)
+      }
     })
 
     expect(output).toBeDefined()

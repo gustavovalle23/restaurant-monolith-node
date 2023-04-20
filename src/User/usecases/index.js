@@ -1,7 +1,7 @@
-const { CreateUserUseCase } = require('./Create');
-const { UpdateUserUseCase } = require('./Update');
+const { createCreateUserUseCase } = require('./Create');
+const { createUpdateUserUseCase } = require('./Update');
 
 module.exports = {
-    CreateUserUseCase,
-    UpdateUserUseCase,
+    createCreateUserUseCase,
+    createUpdateUserUseCase,
 }

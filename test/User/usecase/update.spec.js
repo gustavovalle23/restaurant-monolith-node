@@ -1,5 +1,5 @@
 const { createUserRepository } = require('../../../src/User/domain/repository');
-const { createUpdateUserUseCase } = require('../../../src/User/usecases/Update');
+const { createUpdateUserUseCase } = require('../../../src/User/usecases');
 
 describe('UpdateUserUseCase', () => {
   let userRepository;

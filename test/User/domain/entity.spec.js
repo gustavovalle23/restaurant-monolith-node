@@ -1,111 +1,131 @@
-const { User } = require('../../../src/User/domain')
-const { createUser } = require('../../../src/User/domain/entities')
+const { createUser } = require('../../../src/User/domain')
 
 describe('User Entity Unit Tests', () => {
-    const validAddress = { country: 'BR', state: 'SP', street: 'Street 12', number: 23 }
+  const validAddress = {
+    country: 'BR', state: 'SP', street: 'Street 12', number: 23
+  }
 
-    it('Should instantiate User entity with valid args', () => {
-        const birthDate = new Date(1999, 1, 1)
+  it('Should instantiate User entity with valid args', () => {
+    const birthDate = new Date(1999, 1, 1)
 
-        const user = createUser({
-            name: 'Gus',
-            email: 'email@email.com',
-            password: '123',
-            address: validAddress,
-            birthDate
-        })
-
-        expect(user.id).not.toBeNull()
-        expect(user.name).toBe('Gus')
-        expect(user.password).toBe('123')
-        expect(user.birthDate).toEqual(birthDate)
-        expect(user.isActive).toBeTruthy()
+    const user = createUser({
+      name: 'Gus',
+      email: 'email@email.com',
+      password: '123',
+      address: validAddress,
+      birthDate
     })
 
-    it('Should throw error when instantiate User entity with invalid birthDate', () => {
-        const birthDate = "Fake Data"
-        let errorMessage
+    expect(user.id).not.toBeNull()
+    expect(user.name).toBe('Gus')
+    expect(user.password).toBe('123')
+    expect(user.birthDate).toEqual(birthDate)
+    expect(user.isActive).toBeTruthy()
+  })
 
-        try {
-            createUser({
-                name: 'Gus',
-                email: 'email@email.com',
-                password: '123',
-                address: validAddress,
-                birthDate
-            })
-        } catch (error) {
-            errorMessage = error.message
-        }
+  it('Should throw error when instantiate User entity with invalid birthDate', () => {
+    const birthDate = "Fake Data"
+    let errorMessage
 
-        expect(errorMessage).toBe('ValidationError: "birthDate" must be a valid date')
+    try {
+      createUser({
+        name: 'Gus',
+        email: 'email@email.com',
+        password: '123',
+        address: validAddress,
+        birthDate
+      })
+    } catch (error) {
+      errorMessage = error.message
+    }
+
+    expect(errorMessage).toBe('ValidationError: "birthDate" must be a valid date')
+  })
+
+  it('Should throw error when instantiate User entity with multiples errors', () => {
+    const birthDate = "Fake Data"
+    let errorMessage
+
+    try {
+      createUser({
+        name: 'Gus',
+        email: 'email@',
+        password: '123',
+        address: validAddress,
+        birthDate
+      })
+    } catch (error) {
+      errorMessage = error.message
+    }
+
+    expect(errorMessage).toBe('ValidationError: "email" must be a valid email. "birthDate" must be a valid date')
+  })
+
+  it('Should throw error when instantiate User entity with invalid id', () => {
+    let errorMessage
+    const birthDate = new Date(1999, 1, 1)
+
+    try {
+      createUser({
+        id: '123',
+        name: 'Gus',
+        email: 'email@email.com',
+        password: '123',
+        address: validAddress,
+        birthDate
+      })
+    } catch (error) {
+      errorMessage = error.message
+    }
+
+    expect(errorMessage).toBe('ValidationError: "id" must be a valid ObjectID')
+  })
+
+  it('Should create an inactive user when set it in constructor', () => {
+    const birthDate = new Date(1999, 1, 1)
+    const user = createUser({
+      name: 'Gus',
+      email: 'email@email.com',
+      password: '123',
+      address: validAddress,
+      isActive: false,
+      birthDate
     })
 
-    it('Should throw error when instantiate User entity with invalid id', () => {
-        let errorMessage
-        const birthDate = new Date(1999, 1, 1)
+    expect(user.isActive).toBeFalsy()
 
-        try {
-            createUser({
-                id: '123',
-                name: 'Gus',
-                email: 'email@email.com',
-                password: '123',
-                address: validAddress,
-                birthDate
-            })
-        } catch (error) {
-            errorMessage = error.message
-        }
+  })
 
-        expect(errorMessage).toBe('ValidationError: "id" must be a valid ObjectID')
-    })
+  it('Should throw error when instantiate User entity with invalid name', () => {
+    const birthDate = new Date(1999, 1, 1)
+    let errorMessage
 
-    it('Should create an inactive user when set it in constructor', () => {
-        const birthDate = new Date(1999, 1, 1)
-        const user = createUser({
-            name: 'Gus',
-            email: 'email@email.com',
-            password: '123',
-            address: validAddress,
-            isActive: false,
-            birthDate
-        })
+    try {
+      createUser({
+        birthDate,
+        email: 'email@email.com',
+        password: '123',
+        address: validAddress,
+      })
+    } catch (error) {
+      errorMessage = error.message
+    }
+    expect(errorMessage).toBe('ValidationError: "name" is required')
 
-        expect(user.isActive).toBeFalsy()
+    errorMessage = undefined
 
-    })
-
-    it('Should throw error when instantiate User entity with invalid name', () => {
-        const birthDate = new Date(1999, 1, 1)
-        let errorMessage
-
-        try {
-            createUser({
-                birthDate,
-                email: 'email@email.com',
-                password: '123',
-                address: validAddress,
-            })
-        } catch (error) {
-            errorMessage = error.message
-        }
-        expect(errorMessage).toBe('ValidationError: "name" is required')
-
-        errorMessage = undefined
-
-        try {
-            createUser({
-                name: null,
-                email: 'email@email.com',
-                password: '123',
-                address: validAddress,
-                birthDate
-            })
-        } catch (error) {
-            errorMessage = error.message
-        }
-        expect(errorMessage).toBe('ValidationError: "name" must be a string')
-    })
+    try {
+      createUser({
+        name: null,
+        email: 'email@email.com',
+        password: '123',
+        address: validAddress,
+        birthDate
+      })
+    } catch (error) {
+      errorMessage = error.message
+    }
+    expect(errorMessage).toBe('ValidationError: "name" must be a string')
+  })
 
 })
