@@ -1,19 +1,10 @@
 const Koa = require('koa');
-const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
-
+const { userRouter } = require('./src/User/api');
 
 const app = new Koa();
-const router = new Router();
 
 app.use(bodyParser());
-
-router.post('/user/login', async (ctx) => {
-  ctx.body = {
-    username: ctx.request.body.username,
-    password: ctx.request.body.password
-  };
-});
 
 app.use(async (ctx, next) => {
   await next();
@@ -28,7 +19,7 @@ app.use(async (ctx, next) => {
   ctx.set('X-Response-Time', `${ms}ms`);
 });
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.use(userRouter.routes());
+app.use(userRouter.allowedMethods());
 
 app.listen(3000);
