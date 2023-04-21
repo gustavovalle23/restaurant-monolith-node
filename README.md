@@ -29,22 +29,28 @@ yarn install
 
 The application uses Prisma for database management. Follow the steps below to set up the database:
 
-1. Run the database migration to create the initial schema.
+1. Up the database migration to create the initial schema.
 
 ```bash
-npx prisma migrate dev --name init
+task run:db
 ```
 
-2. Generate Prisma client.
+2. Run the database migration to create the initial schema.
 
 ```bash
-npx prisma generate
+task prisma
 ```
 
 ### Running the Application
 
 1. Start the application.
 
+At local machine:
+```bash
+node index.js
+```
+
+Container:
 ```bash
 task run
 ```
