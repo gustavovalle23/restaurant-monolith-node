@@ -1,0 +1,62 @@
+version: '3'
+
+dotenv: ['.env']
+
+vars:
+  LOCAL_SERVICES: 'app db'
+  COMPOSE_FILE: 'COMPOSE_FILE=docker-compose.yml'
+  BUILD_CMD: 'docker-compose build'
+  RUN_CMD: 'docker-compose up -d {{.LOCAL_SERVICES}}'
+  STOP_CMD: 'docker-compose down -v'
+  TEST_CMD: 'docker-compose exec -T app yarn test'
+  BASH_CMD: 'docker exec -it restaurant-monolith-node_app_1 sh'
+  INSTALL_DEPENDENCIES_CMD: 'docker-compose run app yarn install'
+  LOGS_CMD: 'docker-compose logs -f --tail=500'
+  LOGS_APP_CMD: 'docker-compose logs -f --tail=500 app'
+
+tasks:
+  run:
+    desc: Build and Execute local project
+    cmds:
+      - task: build
+      - '{{.RUN_CMD}}'
+
+  up:
+    desc: Execute local project
+    cmds:
+      - '{{.RUN_CMD}}'
+
+  build:
+    desc: Build container
+    cmds:
+      - '{{.BUILD_CMD}}'
+
+  install:
+    desc: Install dependencies
+    cmds:
+      - '{{.INSTALL_DEPENDENCIES_CMD}}'
+
+  stop:
+    desc: Stop env
+    cmds:
+      - '{{.STOP_CMD}}'
+
+  test:
+    desc: Execute tests
+    cmds:
+      - '{{.TEST_CMD}}'
+
+  app:
+    desc: Enter app bash
+    cmds:
+      - '{{.BASH_CMD}}'
+
+  logs:
+    desc: Docker logs
+    cmds:
+      - '{{.LOGS_CMD}}'
+
+  logs:app:
+    desc: Docker app logs
+    cmds:
+      - '{{.LOGS_APP_CMD}}'
