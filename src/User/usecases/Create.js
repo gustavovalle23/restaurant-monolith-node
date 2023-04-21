@@ -8,7 +8,7 @@ const createCreateUserUseCase = ({ userRepository, makeHashPasswordService }) =>
       name, email, password: hashedPassword, birthDate, address
     })
 
-    const savedUser = await userRepository.save({
+    const savedUser = await userRepository.createUser({
       user,
     })
 

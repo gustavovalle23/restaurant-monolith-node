@@ -7,9 +7,13 @@ services:
     depends_on:
       - db
     environment:
-      - MONGO_URI=mongodb://db:27017/restaurant
+      - DATABASE_URL=postgres://dbuser:dbpassword@db:5432/restaurant
     volumes:
       - .:/app
 
   db:
-    image: mongo
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpassword
+      - POSTGRES_DB=restaurant
