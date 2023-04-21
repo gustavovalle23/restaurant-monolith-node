@@ -7,6 +7,7 @@ vars:
   COMPOSE_FILE: 'COMPOSE_FILE=docker-compose.yml'
   BUILD_CMD: 'docker-compose build'
   RUN_CMD: 'docker-compose up -d {{.LOCAL_SERVICES}}'
+  RUN_CMD_DB: 'docker-compose up -d db && npx prisma migrate dev --name init && npx prisma generate'
   STOP_CMD: 'docker-compose down -v'
   TEST_CMD: 'docker-compose exec -T app yarn test'
   BASH_CMD: 'docker exec -it restaurant-monolith-node_app_1 sh'
@@ -21,10 +22,21 @@ tasks:
       - task: build
       - '{{.RUN_CMD}}'
 
+  run:db:
+    desc: Build and Execute local project
+    cmds:
+      - task: build
+      - '{{.RUN_CMD_DB}}'
+
   up:
     desc: Execute local project
     cmds:
       - '{{.RUN_CMD}}'
+
+  up:db:
+    desc: Execute local project
+    cmds:
+      - '{{.RUN_CMD_DB}}'
 
   build:
     desc: Build container

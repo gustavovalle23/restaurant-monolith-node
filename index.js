@@ -1,8 +1,8 @@
 require('dotenv').config();
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
-const { setupMiddlewares, setupRouters } = require('./middlewares');
-const { injectDependencies } = require('./di');
+const { setupMiddlewares, setupRouters } = require('./src/app/middlewares');
+const { injectDependencies } = require('./src/app/di');
 
 const app = new Koa();
 
