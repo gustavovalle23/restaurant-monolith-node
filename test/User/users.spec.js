@@ -61,4 +61,16 @@ describe('POST /users', () => {
       refreshToken: expect.any(String),
     });
   });
+
+  it('should return an error when login user with wrong email', async () => {
+    const response = await request.post('/users/login').send({
+      email: 'invalid@example.com',
+      password: 'password',
+    });
+
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual({
+      error: 'User Not Found with provided credentials'
+    });
+  });
 });

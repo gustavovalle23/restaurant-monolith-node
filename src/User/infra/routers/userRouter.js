@@ -1,10 +1,10 @@
 const Router = require('koa-router');
 const { userController } = require('../controllers/userController');
 
-const createUserRouter = ({ createUserUseCase, loginUseCase }) => {
+const createUserRouter = (useCases) => {
   const router = new Router();
 
-  const { createUser, login } = userController({ createUserUseCase, loginUseCase });
+  const { createUser, login } = userController({ ...useCases });
 
   router.post('/users', createUser);
   router.post('/users/login', login);

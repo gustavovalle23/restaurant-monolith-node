@@ -1,12 +1,14 @@
 @baseUrl = http://localhost
+@email = email@gmail.com
+@password = mypassword
 ###
 
 POST {{baseUrl}}:3000/users/login
 Content-Type: application/json
 
 {
-  "email": "email@gmail.com",
-  "password": "mypassword"
+  "email": "{{email}}",
+  "password": "{{password}}"
 }
 
 ###
@@ -15,8 +17,8 @@ Content-Type: application/json
 
 {
   "name": "myuser",
-  "password": "mypassword",
-  "email": "email@gmail.com",
+  "password": "{{password}}",
+  "email": "{{email}}",
   "birthDate": "1999-01-01",
   "address": {
     "country": "BR",
