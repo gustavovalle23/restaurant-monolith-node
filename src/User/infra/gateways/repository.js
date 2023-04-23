@@ -1,6 +1,14 @@
 const createUserRepository = ({ prisma }) => {
   const getById = (userId) => null;
 
+  const findByEmail = async (email) => {
+    return prisma.user.findUnique({
+      where: {
+        email
+      }
+    });
+  };
+
   const createUser = async ({ user }) => {
     const { name, email, password, birthDate, address } = user;
     const savedUser = await prisma.user.create({
@@ -28,6 +36,7 @@ const createUserRepository = ({ prisma }) => {
   return {
     getById,
     createUser,
+    findByEmail,
   }
 }
 
