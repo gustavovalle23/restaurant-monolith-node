@@ -4,7 +4,7 @@ const bodyParser = require('koa-bodyparser');
 
 const { setupMiddlewares, setupRouters } = require('../src/app/middlewares');
 const { createUserInMemoryRepository } = require('../src/User/infra/gateways/inMemoryDatabase');
-const { createCreateUserUseCase } = require('../src/User/usecases');
+const { createCreateUserUseCase, createLoginUserCase } = require('../src/User/usecases');
 const { makeHashPassword } = require('../src/User/domain/contracts');
 
 const injectDependencies = (env) => {
@@ -15,9 +15,16 @@ const injectDependencies = (env) => {
     userRepository,
   })
 
+
+  const loginUseCase = createLoginUserCase({
+    userRepository,
+    jwtSecret: env.JWT_SECRET || 'jwt_secret',
+  })
+
   return {
+    loginUseCase,
+    userRepository,
     createUserUseCase,
-    userRepository
   }
 }
 

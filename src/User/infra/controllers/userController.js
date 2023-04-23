@@ -1,4 +1,4 @@
-const userController = ({ createUserUseCase }) => {
+const userController = ({ createUserUseCase, loginUseCase }) => {
   const createUser = async (ctx) => {
     const { name, email, password, birthDate, address } = ctx.request.body;
 
@@ -8,10 +8,14 @@ const userController = ({ createUserUseCase }) => {
   };
 
 
-  const login = (ctx) => {
+  const login = async (ctx) => {
+    const { email, password } = ctx.request.body;
+
+    const { token, refreshToken } = await loginUseCase.execute({ email, password })
+
     ctx.body = {
-      username: ctx.request.body.username,
-      password: ctx.request.body.password
+      token,
+      refreshToken,
     };
   }
 

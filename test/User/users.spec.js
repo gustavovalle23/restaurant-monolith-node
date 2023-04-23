@@ -7,6 +7,10 @@ describe('POST /users', () => {
   const userRepository = testsDependencies.userRepository
   const createUserSpy = jest.spyOn(userRepository, 'createUser');
 
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('should create a new user and return the created user object', async () => {
     const response = await request.post('/users').send({
       name: 'John',
@@ -42,6 +46,19 @@ describe('POST /users', () => {
           country: 'BR', state: 'SP', street: 'Street 12', number: 23
         },
       }
+    });
+  });
+
+  it('should login user and return token and refreshToken object', async () => {
+    const response = await request.post('/users/login').send({
+      email: 'john@example.com',
+      password: 'password',
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      token: expect.any(String),
+      refreshToken: expect.any(String),
     });
   });
 });

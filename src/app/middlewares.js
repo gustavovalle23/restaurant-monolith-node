@@ -24,7 +24,9 @@ module.exports.setupMiddlewares = (app) => {
 }
 
 module.exports.setupRouters = (app, di) => {
-  const userRouter = createUserRouter({ createUserUseCase: di.createUserUseCase })
+  const userRouter = createUserRouter({
+    createUserUseCase: di.createUserUseCase, loginUseCase: di.loginUseCase
+  })
   app.use(userRouter.routes());
   app.use(userRouter.allowedMethods());
 }
