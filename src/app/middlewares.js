@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const { createUserRouter } = require("../User/infra/routers/userRouter");
 const { ValidationError, InvalidLoginCredentialsError, InvalidInputError } = require("../User/domain/errors");
+const { errorMap, errorMapper } = require("./errorMapping");
 
 const prisma = new PrismaClient();
 
@@ -27,16 +28,10 @@ module.exports.setupMiddlewares = (app) => {
     try {
       await next();
     } catch (err) {
-      if (err instanceof InvalidInputError || err instanceof ValidationError) {
-        ctx.status = 400;
-        ctx.body = { error: err.message };
-      } else if (err instanceof InvalidLoginCredentialsError) {
-        ctx.status = 401;
-        ctx.body = { error: err.message };
-      } else {
-        ctx.status = 500;
-        ctx.body = { error: 'Internal Server Error' };
-      }
+      const { status, message } = errorMapper(err)
+
+      ctx.status = status;
+      ctx.body = { error: message };
     }
   });
 }
