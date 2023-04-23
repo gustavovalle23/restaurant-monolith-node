@@ -10,7 +10,8 @@ describe('UpdateUserUseCase', () => {
   }
 
   beforeEach(() => {
-    userRepository = createUserRepository();
+    const prisma = {}
+    userRepository = createUserRepository({ prisma });
     updateUserUseCase = createUpdateUserUseCase({ userRepository })
   });
 

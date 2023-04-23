@@ -24,6 +24,7 @@ describe('POST /users', () => {
       name: 'John',
       email: 'john@example.com',
       birthDate: '1990-01-01',
+      token: expect.any(String),
       address: {
         country: 'BR', state: 'SP', street: 'Street 12', number: 23
       }

@@ -7,9 +7,13 @@ const { createUserInMemoryRepository } = require('../src/User/infra/gateways/inM
 const { createCreateUserUseCase } = require('../src/User/usecases');
 const { makeHashPassword } = require('../src/User/domain/contracts');
 
-const injectDependencies = () => {
+const injectDependencies = (env) => {
   const userRepository = createUserInMemoryRepository()
-  const createUserUseCase = createCreateUserUseCase({ userRepository, makeHashPasswordService: makeHashPassword })
+  const createUserUseCase = createCreateUserUseCase({
+    jwtSecret: env.JWT_SECRET || 'jwt_secret',
+    makeHashPasswordService: makeHashPassword,
+    userRepository,
+  })
 
   return {
     createUserUseCase,
@@ -21,7 +25,7 @@ const app = new Koa();
 
 app.use(bodyParser());
 
-const di = injectDependencies()
+const di = injectDependencies(process.env)
 
 setupMiddlewares(app);
 setupRouters(app, di)

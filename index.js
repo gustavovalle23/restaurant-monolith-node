@@ -8,7 +8,7 @@ const app = new Koa();
 
 app.use(bodyParser());
 
-const di = injectDependencies()
+const di = injectDependencies(process.env)
 
 setupMiddlewares(app);
 setupRouters(app, di)

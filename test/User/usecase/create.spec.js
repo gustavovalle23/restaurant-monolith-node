@@ -10,7 +10,7 @@ const address = {
 }
 
 const createUserRepository = ({ failed }) => {
-  const save = () => {
+  const createUser = () => {
     if (failed) return;
 
     return {
@@ -23,7 +23,7 @@ const createUserRepository = ({ failed }) => {
   }
 
   return {
-    save,
+    createUser,
   }
 }
 
@@ -31,19 +31,20 @@ describe('Create User Use Case Unit Test', () => {
   const userRepository = createUserRepository({ failed: false })
   const useCase = createCreateUserUseCase({
     userRepository,
-    makeHashPasswordService: makeHashPassword
+    makeHashPasswordService: makeHashPassword,
+    jwtSecret: 'secret_jwt'
   })
 
   it('Should instantiate create use case with valid input', async () => {
-    const saveSpy = jest.spyOn(userRepository, 'save')
+    const createUserSpy = jest.spyOn(userRepository, 'createUser')
 
     const output = await useCase.execute({
       name, email, password, birthDate, address
     })
 
 
-    expect(saveSpy).toBeCalledTimes(1)
-    expect(saveSpy).toBeCalledWith({
+    expect(createUserSpy).toBeCalledTimes(1)
+    expect(createUserSpy).toBeCalledWith({
       user: {
         id: expect.any(String),
         name,
@@ -80,7 +81,8 @@ describe('Create User Use Case Unit Test', () => {
     const userRepository = createUserRepository({ failed: true })
     const useCase = createCreateUserUseCase({
       userRepository,
-      makeHashPasswordService: makeHashPassword
+      makeHashPasswordService: makeHashPassword,
+      jwtSecret: 'secret_jwt'
     })
 
     let error;

@@ -6,6 +6,12 @@ const createUserInMemoryRepository = () => {
     return user || null;
   };
 
+  const findByEmail = (email) => {
+    const user = users.find(u => u.email === email);
+    return user || null;
+  };
+
+
   const createUser = async ({ user }) => {
     const { name, email, password, birthDate, address } = user;
     const newUser = {
@@ -24,6 +30,7 @@ const createUserInMemoryRepository = () => {
   return {
     getById,
     createUser,
+    findByEmail,
   };
 };
 
