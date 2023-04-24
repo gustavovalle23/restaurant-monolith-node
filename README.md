@@ -6,7 +6,6 @@
 - Docker (if using Docker for running the application in a container)
 
 ### Installation
-
 1. Clone the repository to your local machine.
 
 ```bash
