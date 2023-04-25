@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { createUserRouter } = require("../User/infra/routers/userRouter");
-const { ValidationError, InvalidLoginCredentialsError, InvalidInputError } = require("../User/domain/errors");
-const { errorMap, errorMapper } = require("./errorMapping");
+const { errorMapper } = require("./errorMapping");
 
 const prisma = new PrismaClient();
 
@@ -38,7 +37,9 @@ module.exports.setupMiddlewares = (app) => {
 
 module.exports.setupRouters = (app, di) => {
   const userRouter = createUserRouter({
-    createUserUseCase: di.createUserUseCase, loginUseCase: di.loginUseCase
+    createUserUseCase: di.createUserUseCase,
+    updateUserUseCase: di.updateUserUseCase,
+    loginUseCase: di.loginUseCase,
   })
   app.use(userRouter.routes());
   app.use(userRouter.allowedMethods());

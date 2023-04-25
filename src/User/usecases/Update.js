@@ -14,8 +14,6 @@ const createUpdateUserUseCase = ({ userRepository }) => {
     const updatedUserParams = {
       id: userId,
       name: name || existingUser.name,
-      email: email || existingUser.email,
-      password: existingUser.password,
       birthDate: birthDate || existingUser.birthDate,
     };
 

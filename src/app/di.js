@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const { createUserRepository } = require('../User/infra/gateways/repository')
-const { createCreateUserUseCase, createLoginUserCase } = require('../User/usecases');
+const { createCreateUserUseCase, createLoginUserCase, createUpdateUserUseCase } = require('../User/usecases');
 const { makeHashPassword } = require('../User/domain/contracts');
 
 const injectDependencies = (env) => {
@@ -13,6 +13,10 @@ const injectDependencies = (env) => {
     userRepository,
   })
 
+  const updateUserUseCase = createUpdateUserUseCase({
+    userRepository,
+  })
+
   const loginUseCase = createLoginUserCase({
     userRepository,
     jwtSecret: env.JWT_SECRET || 'jwt_secret',
@@ -20,6 +24,7 @@ const injectDependencies = (env) => {
 
   return {
     loginUseCase,
+    updateUserUseCase,
     createUserUseCase,
   }
 }
