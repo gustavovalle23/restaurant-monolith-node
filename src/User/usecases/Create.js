@@ -15,6 +15,8 @@ const createCreateUserUseCase = ({ userRepository, makeHashPasswordService, jwtS
 
     if (!savedUser) throw new Error('Unknow error when try create user')
 
+    // Create user in dynamodb too
+
     const token = jwt.sign({ userId: savedUser.id }, jwtSecret, { expiresIn: '1h' })
 
     return {

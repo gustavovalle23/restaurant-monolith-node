@@ -1,4 +1,4 @@
-const createUserRepository = ({ prisma }) => {
+const createUserRepository = ({ prisma, awsGateway }) => {
   const getById = (id) => {
     return prisma.user.findUnique({
       where: {
@@ -34,6 +34,12 @@ const createUserRepository = ({ prisma }) => {
         address: true
       }
     });
+
+    try {
+      await awsGateway.createUser({ user })
+    } catch (error) {
+      console.error(error)
+    }
 
     return savedUser;
   };
