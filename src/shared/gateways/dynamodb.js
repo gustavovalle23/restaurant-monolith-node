@@ -10,16 +10,7 @@ export const AWSGateway = ({ config }) => {
     })
   }
 
-  const client = createDynamoDBClient()
-
-  const createUser = async ({ user }) => {
-    const { $response } = await client.putItem({ Item: user, TableName: config.dynamoDBUserTable }).promise()
-    return {
-      $response,
-    }
-  }
-
   return {
-    createUser,
+    createDynamoDBClient,
   }
 }
