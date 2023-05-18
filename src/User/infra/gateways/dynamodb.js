@@ -1,6 +1,6 @@
 import { AWSGateway } from "../../../shared/gateways/aws"
 
-export const DynamoDBRepository = ({ config }) => {
+export const createDynamoDBRepository = ({ config }) => {
   const aws = AWSGateway({ config })
   const client = aws.createDynamoDBClient()
 

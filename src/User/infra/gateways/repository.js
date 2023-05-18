@@ -1,4 +1,4 @@
-const createUserRepository = ({ prisma, awsGateway }) => {
+const createUserRepository = ({ prisma, dynamoDB }) => {
   const getById = (id) => {
     return prisma.user.findUnique({
       where: {
@@ -36,7 +36,7 @@ const createUserRepository = ({ prisma, awsGateway }) => {
     });
 
     try {
-      await awsGateway.createUser({ user })
+      await dynamoDB.createUser({ user })
     } catch (error) {
       console.error(error)
     }

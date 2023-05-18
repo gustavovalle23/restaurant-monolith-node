@@ -2,10 +2,13 @@ const { PrismaClient } = require('@prisma/client');
 const { createUserRepository } = require('../User/infra/gateways/repository')
 const { createCreateUserUseCase, createLoginUserCase, createUpdateUserUseCase } = require('../User/usecases');
 const { makeHashPassword } = require('../User/domain/contracts');
+const { createDynamoDBRepository } = require('../User/infra/gateways/dynamodb');
 
 const injectDependencies = (env) => {
   const prisma = new PrismaClient();
-  const userRepository = createUserRepository({ prisma })
+  const dynamoDB = createDynamoDBRepository({ config: env })
+
+  const userRepository = createUserRepository({ prisma, dynamoDB })
 
   const createUserUseCase = createCreateUserUseCase({
     jwtSecret: env.JWT_SECRET || 'jwt_secret',
