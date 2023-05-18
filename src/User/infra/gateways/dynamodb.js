@@ -1,4 +1,4 @@
-import { AWSGateway } from "../../../shared/gateways/dynamodb"
+import { AWSGateway } from "../../../shared/gateways/aws"
 
 export const DynamoDBRepository = ({ config }) => {
   const aws = AWSGateway({ config })
